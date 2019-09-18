@@ -1,0 +1,26 @@
+$primary-color: #14d9c4;
+$secondary-color: #54585a;
+
+.Landing {
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.Landing-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: $secondary-color;
+}
+
+.Landing-logo {
+  height: 8vmin;
+  pointer-events: none;
+}

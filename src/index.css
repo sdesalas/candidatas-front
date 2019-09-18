@@ -1,0 +1,25 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Rubik', 'Ubuntu', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  margin: 16px;
+  padding: 16px;
+}
+
+.menuButton {
+  margin-left: -12;
+  margin-right: 20;
+}
+
+.grow {
+  flex-grow: 1;
+}
+
+.block {
+  display: block;
+}

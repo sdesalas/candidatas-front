@@ -1,31 +1,88 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import withAuthorization from '../auth/withAuthorization';
+import moment from 'moment';
 
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+import Paper from '@material-ui/core/Paper';
+
+import './Home.css';
+
+import avatar from '../../images/avatar.jpg';
 
 const HomePage = ({ authUser }) => {
-  const [tabIndex, setTabIndex] = useState(0);
+  const [candidates, setCandidates] = useState([]);
+  const [filter, setFilter] = useState('');
 
-  const handleChange = (event, tabIndex) => {
-    setTabIndex(tabIndex);
+  if (!candidates.length) {
+    fetch('//us-central1-candidatas-front-490dd.cloudfunctions.net/candidates')
+      .then(r => r.json())
+      .then(data => {
+        setCandidates(data.result);
+      });
+  }
+
+  const handleFilter = e => {
+    setFilter(e.target.value);
   };
+
+  const filteredCandidates = candidates.filter(
+    val =>
+      !filter ||
+      (val && val.nombre && val.nombre.match(new RegExp(filter, 'gi')))
+  );
 
   return (
     <div>
-      <Tabs
-        onChange={handleChange}
-        value={tabIndex}
-        indicatorColor="primary"
-        textColor="primary"
-      >
-        <Tab label="1" />
-        <Tab label="2" />
-        <Tab label="3" />
-      </Tabs>
+      <div className="welcome">
+        <p className="right">Hola {authUser.email}!</p>
+        <input
+          className="searchbar"
+          placeholder="Filtrar candidatas..."
+          onChange={handleFilter}
+          value={filter}
+        />
+      </div>
+      <Paper className="data">
+        <List>
+          {filteredCandidates.length ? (
+            filteredCandidates.map(c => (
+              <ListItem key={c.email} alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar alt="Remy Sharp" src={avatar} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <React.Fragment>
+                      <p>
+                        <strong>{c.nombre}</strong> ({c.email})
+                      </p>
+                      <dl>
+                        <dd>Fecha de Nacimiento</dd>
+                        <dt>
+                          {moment(c.fecha_nacimiento).format('DD MMM YYYY')}
+                        </dt>
+                        <dd>Codigo Postal</dd>
+                        <dt>{c.cp}</dt>
+                      </dl>
+                    </React.Fragment>
+                  }
+                />
+              </ListItem>
+            ))
+          ) : (
+            <p className="center">Cargando candidatas...</p>
+          )}
+        </List>
+      </Paper>
+      {/* 
 
-      <p>Hi {authUser.email}!</p>
+        
+       */}
     </div>
   );
 };

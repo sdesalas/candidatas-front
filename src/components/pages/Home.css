@@ -1,0 +1,23 @@
+.welcome {
+  margin: 0 1em;
+  padding: 1em 0 0;
+}
+
+.data {
+  margin: 1em; 
+}
+
+.searchbar {
+  display: block;
+  padding: 5px;
+  margin: 5px; 
+  font-size: 140%;
+}
+
+.right {
+  float: right;
+}
+
+.center {
+  text-align: center;
+}

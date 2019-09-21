@@ -5,6 +5,7 @@
 
 .data {
   margin: 1em; 
+  padding-right: 1%;
 }
 
 .searchbar {
@@ -14,10 +15,41 @@
   font-size: 140%;
 }
 
-.right {
-  float: right;
+.status-message {
+  text-align: center;
+  flex: 1;
 }
 
-.center {
-  text-align: center;
+.list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card-item {
+  flex: 1 0 35%;
+  margin: 0 0 1% 1%;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.card-item:hover {
+  background: #e3fcfa;
+}
+
+.card-item dd {
+  clear: left;
+  float: left;
+  width: 130px;
+  margin: 0;
+  padding: 0;
+}
+
+.card-item dt {
+  float: left;
+}
+
+@media only screen and (min-width: 800px) {
+  .hello-message {
+    float: right;
+  }
 }

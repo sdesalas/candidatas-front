@@ -39,7 +39,9 @@ const HomePage = ({ authUser }) => {
   return (
     <div>
       <div className="welcome">
-        <p className="right">Hola {authUser.email}!</p>
+        <p className="hello-message">
+          Hola <em>{authUser.email}!</em>
+        </p>
         <input
           className="searchbar"
           placeholder="Filtrar candidatas..."
@@ -48,10 +50,14 @@ const HomePage = ({ authUser }) => {
         />
       </div>
       <Paper className="data">
-        <List>
+        <List className="list"> 
           {filteredCandidates.length ? (
             filteredCandidates.map(c => (
-              <ListItem key={c.email} alignItems="flex-start">
+              <ListItem
+                key={c.email}
+                alignItems="flex-start"
+                className="card-item"
+              >
                 <ListItemAvatar>
                   <Avatar alt="Remy Sharp" src={avatar} />
                 </ListItemAvatar>
@@ -62,9 +68,9 @@ const HomePage = ({ authUser }) => {
                         <strong>{c.nombre}</strong> ({c.email})
                       </p>
                       <dl>
-                        <dd>Fecha de Nacimiento</dd>
+                        <dd>Edad</dd>
                         <dt>
-                          {moment(c.fecha_nacimiento).format('DD MMM YYYY')}
+                          {c.edad} ({moment(c.fecha_nacimiento).format('DD MMM YYYY')})
                         </dt>
                         <dd>Codigo Postal</dd>
                         <dt>{c.cp}</dt>
@@ -75,14 +81,14 @@ const HomePage = ({ authUser }) => {
               </ListItem>
             ))
           ) : (
-            <p className="center">Cargando candidatas...</p>
+            <p className="status-message">
+              {candidates.length === 0
+                ? 'Cargando candidatas...'
+                : 'No hay candidatas con ese nombre.'}
+            </p>
           )}
         </List>
       </Paper>
-      {/* 
-
-        
-       */}
     </div>
   );
 };

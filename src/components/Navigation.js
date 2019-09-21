@@ -15,6 +15,8 @@ import Home from '@material-ui/icons/Home';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
+import './Navigation.css';
+
 const Navigation = props => (
   <AuthUserContext.Consumer>
     {authUser => <NavigationAuth authUser={authUser} {...props} />}
@@ -33,7 +35,7 @@ const NavigationAuth = ({ authUser, history }) => {
 
   const open = Boolean(anchorEl);
   return (
-    <AppBar position="static">
+    <AppBar position="static" className="app-bar">
       <Toolbar>
         <IconButton
           className="menuButton"

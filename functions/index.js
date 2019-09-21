@@ -5,6 +5,10 @@ const crypto = require('crypto');
 admin.initializeApp(functions.config().firebase);
 const db = admin.firestore();
 
+/**
+ * HTTP API for /candidates
+ * supports GET, POST and OPTIONS methods
+ */
 exports.candidates = functions.https.onRequest(async (req, res) => {
   try {
     res.set('Access-Control-Allow-Origin', '*');
@@ -50,6 +54,30 @@ exports.candidates = functions.https.onRequest(async (req, res) => {
     res.status(500).send();
   }
 });
+
+/**
+ * Event triggered whenever there is an update to the database.
+ * It sets the edad (age) of the candidate.
+ */
+exports.onWrite = functions.firestore
+  .document('candidates/{uid}')
+  .onWrite(async (change, context) => {
+    const MILLISECONDS_IN_A_YEAR = 1000 * 60 * 60 * 24 * 365;
+    const uid = context.params.uid;
+    if (!change.after.exists) return; // DELETE? Do nothing.
+    try {
+      const data = change.after.data();
+      const fecha_nacimiento = data && data.fecha_nacimiento;
+      const edad = Math.floor(
+        (new Date().getTime() - fecha_nacimiento) / MILLISECONDS_IN_A_YEAR
+      );
+      db.collection('candidates')
+        .doc(uid)
+        .set({ edad }, { merge: true });
+    } catch (err) {
+      console.error(err);
+    }
+  });
 
 // To allow us to overwrite existing records (without compromising user information)
 // we turn the email into a UID using MD5
